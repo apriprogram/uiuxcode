@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Program Sign Up</title>
+    <link rel="shortcut icon" href="assets/css.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="centerkonten">
+        <form class="form">
+
+            <div class="login-welcome">
+                <img class="logo-login" src="assets/apriprogramlogo.jpg" alt="apriprogramlogo">
+                <h1>Sign Up</h1>
+                <div class="text-description">
+                    <span>Already have an account?</span>
+                    <div class="form_signin">
+                        <a href="#" title="Create Account">Sign in</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="google-row">
+                <a href="#" title="Use Google">
+                    <img src="assets/google.png" alt="Google">
+                    Use Google
+                </a>
+            </div>
+            <div class="or">
+                <div class="or-line"></div>
+                <div class="text-description">
+                    <span>or</span>
+                </div>
+                <div class="or-line"></div>
+            </div>
+
+            <div class="gap-text-field">
+                <div class="text-field">
+                    <label for="name">Name</label>
+                    <input aria-label="Name" type="name" id="name" name="name" placeholder="Name" required>
+                    <img alt="Name Icon" title="Name Icon" src="assets/icon-person.svg">
+                </div>
+                <div class="text-field">
+                    <label for="email">Email</label>
+                    <input aria-label="Email" type="email" id="email" name="email" placeholder="Email" required>
+                    <img alt="Email Icon" title="Email Icon" src="assets/icon-email.svg">
+                </div>
+                <div class="text-field">
+                    <label for="password">Password
+                    </label>
+                    <input id="password" type="password" aria-label="Password" name="password"
+                        placeholder="New Password" title="Minimum 8 characters at least 1 Alphabet and 1 Number"
+                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
+                    <img alt="Password Icon" title="Password Icon" src="assets/icon-password.svg">
+                </div>
+                <div class="text-field">
+                    <label for="password">Repeat password
+                    </label>
+                    <input id="password" type="password" aria-label="Password" name="password"
+                        placeholder="Repeat new password" title="Minimum 8 characters at least 1 Alphabet and 1 Number"
+                        pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
+                    <img alt="Password Icon" title="Password Icon" src="assets/icon-password.svg">
+                </div>
+            </div>
+
+            <input type="submit" class="form_button" value="Sign Up">
+            <div class="agree_privacy">
+                <span>By registering you agree to our<a href="#" title="Reset Password">Terms</a> and<a href="#"
+                        title="Reset Password">Privacy</a>
+                </span>
+            </div>
+
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

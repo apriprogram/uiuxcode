@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Program Login #1</title>
+    <link rel="shortcut icon" href="assets/css.png" type="image/png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="background"></div>
+    <div class="centerkonten">
+        <form class="form">
+            <div class="login-welcome">
+                <img class="logo-login" src="assets/apriprogramlogo.jpg" alt="apriprogramlogo">
+                <h1>Login</h1>
+            </div>
+            <div class="text-description">
+                <span>Enter your credential to access your account</span>
+            </div>
+            <div class="text-field">
+                <label for="email">Email</label>
+                <input aria-label="Email" type="email" id="email" name="email" placeholder="Your email" required>
+                <img alt="Email Icon" title="Email Icon" src="assets/icon-email.svg">
+            </div>
+            <div class="text-field">
+                <label for="password">Password
+                    <a href="#" class="form_forgotpassword" title="Forgot Password">Forgot Password?</a>
+                </label>
+                <input id="password" type="password" aria-label="Password" name="password" placeholder="Password"
+                    title="Minimum 8 characters at least 1 Alphabet and 1 Number"
+                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$" required>
+                <img alt="Password Icon" title="Password Icon" src="assets/icon-password.svg">
+            </div>
+            <input type="submit" class="form_button" value="Log in">
+            <div class="form_signup">
+                <span>Don't have any account?</span>
+                <a href="#" title="Create Account">Sign Up</a>
+            </div>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
