@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .input-container input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container button:hover {
+            background-color: #45a049;
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .task-list li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .task-list li span {
+            flex: 1;
+        }
+
+        .task-list li button {
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .task-list li button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Task Tracker</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Enter task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        <ul class="task-list" id="taskList"></ul>
+    </div>
+
+    <script>
+        let tasks = [];
+
+        function addTask() {
+            let taskInput = document.getElementById("taskInput");
+            let task = taskInput.value.trim();
+            
+            if (task !== "") {
+                tasks.push(task);
+                taskInput.value = "";
+                renderTasks();
+            }
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+
+        function renderTasks() {
+            let taskList = document.getElementById("taskList");
+            taskList.innerHTML = "";
+
+            tasks.forEach((task, index) => {
+                let listItem = document.createElement("li");
+                listItem.classList.add("task-card");
+
+                let taskText = document.createElement("span");
+                taskText.textContent = task;
+                listItem.appendChild(taskText);
+
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "Delete";
+                deleteButton.onclick = () => deleteTask(index);
+                listItem.appendChild(deleteButton);
+
+                taskList.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+</html>
