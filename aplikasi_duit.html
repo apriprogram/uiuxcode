@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pencatat Pengeluaran</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 40%;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .balance {
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .input-container input[type="number"] {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+
+        .input-container select, .input-container input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 0;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container button:hover {
+            background-color: #45a049;
+        }
+
+        .transaction-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .transaction-list li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .transaction-list li.income {
+            border-left: 5px solid #4CAF50;
+        }
+
+        .transaction-list li.expense {
+            border-left: 5px solid #f44336;
+        }
+
+        .transaction-list li span {
+            flex: 1;
+        }
+
+        .transaction-list li button {
+            padding: 5px 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .transaction-list li button:hover {
+            background-color: #d32f2f;
+        }
+
+        .filter-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .filter-container input[type="date"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .filter-container button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .filter-container button:hover {
+            background-color: #0056b3;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pencatat Pengeluaran</h1>
+        <div class="balance">Saldo: <span id="balance">Rp. 0</span></div>
+        <div class="input-container">
+            <input type="number" id="amount" placeholder="Masukkan jumlah">
+            <select id="type">
+                <option value="income">Pemasukan</option>
+                <option value="expense">Pengeluaran</option>
+            </select>
+            <input type="date" id="transactionDate">
+            <select id="category"> <!-- Menambahkan dropdown untuk kategori -->
+                <option value="Makanan">Makanan</option>
+                <option value="Bensin">Bensin</option>
+                <option value="Gaji">Gaji</option>
+                <option value="Paket">Paket</option>
+                <option value="Jajan">Jajan</option>
+                <!-- Tambahkan opsi lainnya sesuai kebutuhan -->
+            </select>
+            <button onclick="addTransaction()">Tambah</button>
+        </div>
+        <div class="filter-container">
+            <input type="date" id="startDate">
+            <input type="date" id="endDate">
+            <button onclick="filterTransactions()">Filter</button>
+        </div>
+        <ul id="transactionList" class="transaction-list"></ul>
+    </div>
+
+    <script>
+        let transactions = [];
+        let balance = 0;
+
+        function formatRupiah(amount) {
+            return "Rp. " + new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 }).format(amount);
+        }
+
+        function addTransaction() {
+            let amountInput = document.getElementById("amount");
+            let amount = parseFloat(amountInput.value);
+            let type = document.getElementById("type").value;
+            let date = document.getElementById("transactionDate").value;
+            let category = document.getElementById("category").value; // Mendapatkan nilai kategori
+
+            if (isNaN(amount) || amount === 0) {
+                alert("Silakan masukkan jumlah yang valid.");
+                return;
+            }
+
+            if (type === "expense") {
+                amount = -amount;
+            }
+
+            transactions.push({ amount, type, date, category }); // Menyimpan objek transaksi
+            balance += amount;
+
+            updateUI();
+        }
+
+        function deleteTransaction(index) {
+            let deletedAmount = transactions[index].amount;
+            transactions.splice(index, 1);
+            balance -= deletedAmount;
+
+            updateUI();
+        }
+
+        function updateUI() {
+            let balanceElement = document.getElementById("balance");
+            balanceElement.textContent = formatRupiah(balance);
+
+            let transactionList = document.getElementById("transactionList");
+            transactionList.innerHTML = "";
+
+            transactions.forEach((transaction, index) => {
+                let listItem = document.createElement("li");
+                listItem.classList.add("transaction");
+
+                let typeClass = transaction.amount < 0 ? "expense" : "income";
+                listItem.classList.add(typeClass);
+
+                let transactionInfo = document.createElement("span");
+                transactionInfo.textContent = `${transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}: ${formatRupiah(Math.abs(transaction.amount))} (${transaction.category}) - ${transaction.date}`; // Menampilkan keterangan transaksi
+                listItem.appendChild(transactionInfo);
+
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "Hapus";
+                deleteButton.onclick = () => deleteTransaction(index);
+                listItem.appendChild(deleteButton);
+
+                transactionList.appendChild(listItem);
+            });
+        }
+
+        function filterTransactions() {
+            let startDate = document.getElementById("startDate").value;
+            let endDate = document.getElementById("endDate").value;
+
+            let filteredTransactions = transactions.filter(transaction => {
+                return transaction.date >= startDate && transaction.date <= endDate;
+            });
+
+            let totalFilteredAmount = filteredTransactions.reduce((total, transaction) => {
+                return total + transaction.amount;
+            }, 0);
+
+            let balanceElement = document.getElementById("balance");
+            balanceElement.textContent = formatRupiah(totalFilteredAmount);
+
+            let transactionList = document.getElementById("transactionList");
+            transactionList.innerHTML = "";
+
+            filteredTransactions.forEach((transaction, index) => {
+                let listItem = document.createElement("li");
+                listItem.classList.add("transaction");
+
+                let typeClass = transaction.amount < 0 ? "expense" : "income";
+                listItem.classList.add(typeClass);
+
+                let transactionInfo = document.createElement("span");
+                transactionInfo.textContent = `${transaction.type === 'income' ? 'Pemasukan' : 'Pengeluaran'}: ${formatRupiah(Math.abs(transaction.amount))} (${transaction.category}) - ${transaction.date}`;
+                listItem.appendChild(transactionInfo);
+
+                let deleteButton = document.createElement("button");
+                deleteButton.textContent = "Hapus";
+                deleteButton.onclick = () => deleteTransaction(transactions.indexOf(transaction));
+                listItem.appendChild(deleteButton);
+
+                transactionList.appendChild(listItem);
+            });
+        }
+        function getCurrentDate() {
+        let now = new Date();
+        let year = now.getFullYear();
+        let month = (now.getMonth() + 1).toString().padStart(2, '0'); // Tambahkan nol di depan bulan jika hanya satu digit
+        let day = now.getDate().toString().padStart(2, '0'); // Tambahkan nol di depan hari jika hanya satu digit
+        return `${year}-${month}-${day}`;
+    }
+
+    // Event listener untuk menjalankan fungsi saat dokumen dimuat
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mendapatkan elemen input tanggal
+        let dateInput = document.getElementById('transactionDate');
+
+        // Tetapkan nilai input tanggal ke tanggal hari ini
+        dateInput.value = getCurrentDate();
+    });
+    </script>
+</body>
+</html>
